@@ -4,7 +4,9 @@
 .venv/
 .monitor/
 media/
+
 processing/bin/
+processing/dest/
 
 config.json
 *.pid.txt

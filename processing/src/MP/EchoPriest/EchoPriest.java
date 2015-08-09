@@ -17,6 +17,8 @@ public class EchoPriest extends MPPCore {
 		
 		size(640, 480);
 		
+		System.out.println(media_dir);
+		
 		movie = new Movie(this, media_dir + "video/test_mov.mov");
 		movie.loop();
 	}
@@ -32,6 +34,6 @@ public class EchoPriest extends MPPCore {
 	}
 
 	public static void main(String args[]) {
-		PApplet.main(new String[] {"MP.EchoPriest.EchoPriest"});
+		PApplet.main(new String[] {"--present", "--hide-stop", EchoPriest.class.getName() });
 	}
 }
