@@ -20,7 +20,9 @@ KEY_MAP = {
 
 class EchoPriest(MPServerAPI):
 	def __init__(self):
-		MPServerAPI.__init__(self, DEFAULT_TELEPHONE_GPIO)
+		MPServerAPI.__init__(self)
+		
+		self.gpio_mappings = DEFAULT_TELEPHONE_GPIO
 		logging.basicConfig(filename=self.conf['d_files']['module']['log'], level=logging.DEBUG)
 
 	def choose_hear_or_record(self):
