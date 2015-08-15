@@ -38,6 +38,17 @@ class EchoPriest(MPServerAPI):
 
 		return False
 
+	def choose_record_absolution(self, confession):
+		c = 'choose_record_absolution'
+		logging.info(c)
+
+		choice = self.prompt(os.path.join("prompts", PROMPTS[c]), KEY_MAP[c])
+
+		if choice == KEY_MAP[c][0]:
+			return self.record_absolution(confession)
+
+		return self.choose_hear_or_record()
+
 	def hear_confession(self):
 		logging.info("hear_confession")
 
@@ -72,15 +83,7 @@ class EchoPriest(MPServerAPI):
 			heard_confessions.append(random_confession)
 			self.db.set('HEARD_CONFESSIONS', json.dumps(heard_confessions))
 
-			c = 'choose_record_absolution'
-			logging.info(c)
-
-			choice = self.prompt(os.path.join("prompts", PROMPTS[c]), KEY_MAP[c])
-
-			if choice == KEY_MAP[c][0]:
-				return self.record_absolution(random_confession)
-
-			return self.choose_hear_or_record()
+			return self.choose_record_absolution(random_confession)
 
 		return False
 
