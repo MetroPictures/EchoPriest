@@ -2,15 +2,15 @@ import random, os, logging
 from sys import argv, exit
 from time import time, sleep
 
-from core.MPy.api import MPServerAPI
-from core.MPy.vars import DEFAULT_TELEPHONE_GPIO, UNPLAYABLE_FILES
+from core.api import MPServerAPI
+from core.vars import DEFAULT_TELEPHONE_GPIO, UNPLAYABLE_FILES
 
 PROMPTS = {
-	'choose_hear_or_record' : "choose_hear_or_record.mp3",
-	'record_absolution' : "record_absolution.mp3",
-	'record_confession' : "record_confession.mp3",
-	'choose_record_absolution' : "choose_record_absolution.mp3",
-	'no_confessions_yet' : "no_confessions_yet.mp3"
+	'choose_hear_or_record' : "choose_hear_or_record.wav",
+	'record_absolution' : "record_absolution.wav",
+	'record_confession' : "record_confession.wav",
+	'choose_record_absolution' : "choose_record_absolution.wav",
+	'no_confessions_yet' : "no_confessions_yet.wav"
 }
 
 KEY_MAP = {
