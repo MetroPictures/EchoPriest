@@ -1,4 +1,4 @@
-import random, os, logging
+import random, os, json, logging
 from sys import argv, exit
 from time import time, sleep
 
@@ -41,6 +41,12 @@ class EchoPriest(MPServerAPI):
 	def hear_confession(self):
 		logging.info("hear_confession")
 
+		try:
+			heard_confessions = json.loads(self.db.get('HEARD_CONFESSIONS'))
+		except Exception as e:
+			logging.warning("No heard confessions yet")
+			heard_confessions = []
+
 		for _, _, files in os.walk(os.path.join(self.conf['media_dir'], "confessions")):
 			files = [file for file in files if file not in UNPLAYABLE_FILES]
 
@@ -50,11 +56,22 @@ class EchoPriest(MPServerAPI):
 				if self.say(os.path.join("prompts", PROMPTS['no_confessions_yet'])):
 					return self.choose_hear_or_record()
 			else:
+				files_ = list(set(files) - set(heard_confessions))
+				
+				if len(files_) > 0:
+					files = files_
+				else:
+					logging.debug("Probably heard all the confessions.  Let's reset the tally.")
+					self.db.set('HEARD_CONFESSIONS', None)
+
 				random_confession = files[random.randint(0, len(files) - 1)]
 			
 			break
 
 		if self.say(os.path.join("confessions", random_confession)):
+			heard_confessions.append(random_confession)
+			self.db.set('HEARD_CONFESSIONS', json.dumps(heard_confessions))
+
 			c = 'choose_record_absolution'
 			logging.info(c)
 
@@ -86,6 +103,10 @@ class EchoPriest(MPServerAPI):
 			return self.choose_hear_or_record()
 		
 		return False
+
+	def reset_for_call(self):
+		super(EchoPriest, self).reset_for_call()
+		self.db.set('HEARD_CONFESSIONS', None)
 
 	def run_script(self):
 		super(EchoPriest, self).run_script()
