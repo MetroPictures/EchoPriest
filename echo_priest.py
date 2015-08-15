@@ -85,9 +85,10 @@ class EchoPriest(MPServerAPI):
 		return False
 
 	def record_confession(self):
-		logging.info("record_confession")
+		c = "record_confession"
+		logging.info(c)
 
-		if self.record(os.path.join("prompts", PROMPTS['record_confession']), \
+		if self.record(os.path.join("prompts", PROMPTS[c]), \
 			dst=os.path.join("confessions", "confession_%d.wav" % time())):
 			
 			return self.choose_hear_or_record()
@@ -95,9 +96,10 @@ class EchoPriest(MPServerAPI):
 		return False
 
 	def record_absolution(self, confession):
-		logging.info("record_absolution")
+		c = "record_absolution"
+		logging.info(c)
 
-		if self.record(os.path.join("prompts", PROMPTS['record_absolution']), \
+		if self.record(os.path.join("prompts", PROMPTS[c]), \
 			dst=os.path.join("absolutions", confession.replace(".wav", "_%d.wav" % time()))):
 
 			return self.choose_hear_or_record()
